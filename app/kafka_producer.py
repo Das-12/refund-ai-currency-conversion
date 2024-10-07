@@ -1,0 +1,35 @@
+from aiokafka import AIOKafkaProducer
+import asyncio
+import json
+from .config import settings
+producer = None
+
+async def init_kafka_producer():
+    global producer
+    retries = 5
+    while retries > 0:
+        try:
+            producer = AIOKafkaProducer(
+                bootstrap_servers=settings.KAFKA_BROKER_URL,
+                value_serializer=lambda v: json.dumps(v).encode('utf-8')
+            )
+            
+            await producer.start()
+            print("PRODUCER INITIALIZED")
+            break
+        except Exception as e:
+            print(str(e))
+            retries -= 1
+            await asyncio.sleep(10)  # Wait before retrying
+
+async def send_log(log_data: dict):
+    try:
+        resp = await producer.send_and_wait(settings.KAFKA_TOPIC, log_data)
+        print("LOG SEND")
+    except Exception as e:
+        print(f"Failed to send log: {str(e)}")
+
+async def close_kafka_producer():
+    global producer
+    if producer:
+        await producer.stop()
