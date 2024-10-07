@@ -6,9 +6,8 @@ from .database import get_db
 
 scheduler = BackgroundScheduler()
 
-def daily_update():
-    db = next(get_db())
-    to_currency = "INR"  # Default currency or make it dynamic
+def daily_update(to_currency:str):
+    db = next(get_db())   
     conversion_rates = fetch_conversion_rates(to_currency)
     
     if conversion_rates:
