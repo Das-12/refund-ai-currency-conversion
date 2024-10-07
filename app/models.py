@@ -8,3 +8,4 @@ class CurrencyConversionRate(Base):
     base_currency = Column(String(3), nullable=False)
     target_currency = Column(String(3), nullable=False)
     conversion_rate = Column(Float, nullable=False)
+

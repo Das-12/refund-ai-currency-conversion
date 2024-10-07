@@ -14,7 +14,10 @@ class Settings(BaseSettings):
     KAFKA_USERNAME: str = 'arshad'
     KAFKA_PASSWORD: str = 'KldkhhmS392'
 
-    class Config:
-        env_file = ".env"
+    exchangerate_api: str  
 
+    class Config:
+        env_file = ".env"  
+
+# Create an instance of Settings
 settings = Settings()
