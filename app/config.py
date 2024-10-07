@@ -14,7 +14,7 @@ class Settings(BaseSettings):
     KAFKA_USERNAME: str = 'arshad'
     KAFKA_PASSWORD: str = 'KldkhhmS392'
 
-    exchangerate_api: str  
+    # exchangerate_api: str  
 
     class Config:
         env_file = ".env"  

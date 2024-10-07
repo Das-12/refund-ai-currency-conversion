@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Float, Integer
+from sqlalchemy import Column, String, Float, Integer, DateTime  # Import DateTime from SQLAlchemy
 from .database import Base
 
 class CurrencyConversionRate(Base):
@@ -8,4 +8,4 @@ class CurrencyConversionRate(Base):
     base_currency = Column(String(3), nullable=False)
     target_currency = Column(String(3), nullable=False)
     conversion_rate = Column(Float, nullable=False)
-
+    created_at = Column(DateTime, nullable=False)  

@@ -6,7 +6,7 @@ from .database import get_db
 
 scheduler = BackgroundScheduler()
 
-def daily_update(to_currency:str):
+def daily_update(to_currency: str):
     db = next(get_db())   
     conversion_rates = fetch_conversion_rates(to_currency)
     
@@ -14,5 +14,6 @@ def daily_update(to_currency:str):
         save_conversion_rates(db, to_currency, conversion_rates)
 
 def start_scheduler():
-    scheduler.add_job(daily_update, 'interval', days=1)
+    # Pass the argument `to_currency` to the `daily_update` function
+    scheduler.add_job(daily_update, 'interval', days=1, args=['INR']) 
     scheduler.start()
