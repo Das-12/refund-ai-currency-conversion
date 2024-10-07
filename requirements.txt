@@ -17,4 +17,6 @@ pydantic_core==2.20.1
 pydeck==0.9.1
 Pygments==2.18.0
 watchdog==4.0.1
-aiomysql
+aiomysql==0.2.0
+schedule==1.2.2
+APScheduler==3.10.4
