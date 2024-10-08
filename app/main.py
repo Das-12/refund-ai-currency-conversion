@@ -5,14 +5,12 @@ from .database import get_db
 from .models import CurrencyConversionRate
 from .services import fetch_conversion_rates
 from .crud import save_conversion_rates
-from .scheduler import start_scheduler
+from .celery_tasks import daily_update  # Import Celery task instead of the scheduler
 
+# We no longer need to start the scheduler in the lifespan function
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # This function runs when the app starts
-    start_scheduler()
-    yield
-    # Here, you could include any shutdown logic if needed
+    yield  # No scheduling or background processes at startup
 
 app = FastAPI(lifespan=lifespan)
 
@@ -34,3 +32,10 @@ def update_currency_rates(to_currency: str, db: Session = Depends(get_db)):
 def get_conversion_rates(db: Session = Depends(get_db)):
     rates = db.query(CurrencyConversionRate).all()
     return rates
+
+# Route to trigger the update asynchronously using Celery
+@app.post("/async-update/")
+def async_update_currency_rates(to_currency: str):
+    # Trigger the Celery task asynchronously
+    daily_update.apply_async(args=[to_currency])
+    return {"message": "Currency update task has been triggered asynchronously"}
