@@ -8,11 +8,13 @@ from .database import get_db
 # Celery task to fetch and save conversion rates
 @shared_task
 def daily_update(to_currency: str):
+    print("in daily update")
     # Get the database session
     db: Session = next(get_db())
     
     # Fetch the conversion rates from the external API
     conversion_rates = fetch_conversion_rates(to_currency)
+    print(conversion_rates)
     
     # If rates are fetched successfully, save them to the database
     if conversion_rates:

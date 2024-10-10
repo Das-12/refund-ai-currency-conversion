@@ -38,4 +38,5 @@ def get_conversion_rates(db: Session = Depends(get_db)):
 def async_update_currency_rates(to_currency: str):
     # Trigger the Celery task asynchronously
     daily_update.apply_async(args=[to_currency])
+    
     return {"message": "Currency update task has been triggered asynchronously"}
