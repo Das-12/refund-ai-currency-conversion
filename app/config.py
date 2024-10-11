@@ -32,10 +32,9 @@ import os
 from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
-    # Use environment variables with a fallback
     DB_USER: str = os.getenv("DB_USER", "arshad")
     DB_PASSWORD: str = os.getenv("DB_PASSWORD", "KldkhhmS%23392")
-    DB_PASSWORD1: str = os.getenv("DB_PASSWORD1", "KldkhhmS#392")  # Not sure why you have two passwords; ensure you really need both
+    DB_PASSWORD1: str = os.getenv("DB_PASSWORD1", "KldkhhmS#392")  
     DB_HOST: str = os.getenv("DB_HOST", "152.42.240.8")
     DB_NAME: str = os.getenv("DB_NAME", "currency_conversion_service")
     DB_PORT: int = os.getenv("DB_PORT", 3306)
@@ -52,13 +51,11 @@ class Settings(BaseSettings):
     REDIS_DB: int = os.getenv("REDIS_DB", 1)
 
     class Config:
-        env_file = ".env"  # Specify the .env file to load environment variables
-        extra = "forbid"    # This will raise errors for any extra inputs not defined
+        env_file = ".env" 
+        extra = "forbid"    
 
-# Create an instance of Settings
+
 settings = Settings()
 
-# Example usage
-print(f"DB User: {settings.DB_USER}")
-print(f"Redis Host: {settings.REDIS_HOST}")
+
 
