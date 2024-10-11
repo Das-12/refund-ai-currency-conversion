@@ -9,3 +9,4 @@ class CurrencyConversionRate(Base):
     target_currency = Column(String(3), nullable=False)
     conversion_rate = Column(Float, nullable=False)
     created_at = Column(DateTime, nullable=False)  
+
