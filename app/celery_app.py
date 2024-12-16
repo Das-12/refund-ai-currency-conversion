@@ -21,17 +21,14 @@ celery_app = Celery(
     backend=f'redis://{USERNAME}:{PASSWORD}@178.128.58.228:6379/1'
 )
 
-# Set the timezone to IST (Indian Standard Time)
 celery_app.conf.timezone = 'Asia/Kolkata'
 
-# Define the periodic task schedule
 celery_app.conf.beat_schedule = {
     'fetch_conversion_rates_daily': {
-        'task': 'app.celery_tasks.daily_update',  # Ensure this matches the task path
-        'schedule': crontab(hour=12, minute=31),  # Runs daily at 7:35 PM IST (Asia/Kolkata timezone)
-        'args': ['INR'],  # Arguments to pass to the task
+        'task': 'app.celery_tasks.daily_update',  
+        'schedule': crontab(hour=11, minute=44),  
+        'args': ['INR'],  
     },
 }
 
-# Update the app configuration if needed (this is optional)
 celery_app.conf.update()

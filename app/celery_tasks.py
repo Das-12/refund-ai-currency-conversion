@@ -7,7 +7,7 @@ from .database import get_db
 
 # Celery task to fetch and save conversion rates
 @shared_task
-def daily_update(to_currency: str):
+def daily_update_currency(to_currency: str):
     print("in daily update")
     # Get the database session
     db: Session = next(get_db())
