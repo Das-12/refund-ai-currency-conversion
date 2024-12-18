@@ -1,6 +1,9 @@
 from sqlalchemy.orm import Session
 from .models import CurrencyConversionRate
 from datetime import datetime
+import logging
+logger = logging.getLogger(__name__)
+
 
 def save_conversion_rates(db: Session, base_currency: str, conversion_rates: dict):
     for target_currency, rate in conversion_rates.items():
@@ -12,3 +15,4 @@ def save_conversion_rates(db: Session, base_currency: str, conversion_rates: dic
         )
         db.add(db_rate)
     db.commit()
+    logger.info("Database updated successfully.")

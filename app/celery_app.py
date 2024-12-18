@@ -1,9 +1,11 @@
 import os
 from celery import Celery
 from celery.schedules import crontab
-from .celery_tasks import daily_update
+from .celery_tasks import daily_update_currency
 from dotenv import load_dotenv
 from .config import Settings
+from datetime import timedelta
+
 
 load_dotenv()
 
@@ -25,8 +27,8 @@ celery_app.conf.timezone = 'Asia/Kolkata'
 
 celery_app.conf.beat_schedule = {
     'fetch_conversion_rates_daily': {
-        'task': 'app.celery_tasks.daily_update',  
-        'schedule': crontab(hour=11, minute=44),  
+        'task': 'app.celery_tasks.daily_update_currency',  
+        'schedule': crontab(hour=0, minute=0),  
         'args': ['INR'],  
     },
 }

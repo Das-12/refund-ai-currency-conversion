@@ -1,6 +1,9 @@
 import requests
 import os
 from dotenv import load_dotenv
+import logging
+logger = logging.getLogger(__name__)
+
 
 load_dotenv()
 # EXCHANGERATE_API = os.getenv("EXCHANGERATE_API")
@@ -13,6 +16,8 @@ def fetch_conversion_rates(to_currency: str, api_key = "8a491588a1ecffee111d490c
     
     if response.status_code == 200:
         data = response.json()
+        logger.info("Fetched data successfully, updating database.")
+
         return data.get('conversion_rates', {})
     else:
         return None
