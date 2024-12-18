@@ -28,7 +28,7 @@ celery_app.conf.timezone = 'Asia/Kolkata'
 celery_app.conf.beat_schedule = {
     'fetch_conversion_rates_daily': {
         'task': 'app.celery_tasks.daily_update_currency',  
-        'schedule': crontab(hour=0, minute=0),  
+        'schedule': crontab(hour=10, minute=14),  
         'args': ['INR'],  
     },
 }
