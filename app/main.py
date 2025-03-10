@@ -5,7 +5,8 @@ from .database import get_db
 from .models import CurrencyConversionRate
 from .services import fetch_conversion_rates
 from .crud import save_conversion_rates
-from .celery_tasks import daily_update_currency  
+from .celery_tasks import daily_update_currency 
+from datetime import datetime 
 
 # We no longer need to start the scheduler in the lifespan function
 @asynccontextmanager
@@ -30,7 +31,9 @@ def update_currency_rates(to_currency: str, db: Session = Depends(get_db)):
 # Route to get all saved conversion rates from the database
 @app.get("/conversion-rates/")
 def get_conversion_rates(db: Session = Depends(get_db)):
-    rates = db.query(CurrencyConversionRate).all()
+    today = datetime.utcnow()
+    static_date = datetime(2024, 12, 17)
+    rates = db.query(CurrencyConversionRate).filter(CurrencyConversionRate.created_at == static_date).all()
     return rates
 
 # Route to trigger the update asynchronously using Celery
