@@ -32,8 +32,8 @@ def update_currency_rates(to_currency: str, db: Session = Depends(get_db)):
 @app.get("/conversion-rates/")
 def get_conversion_rates(db: Session = Depends(get_db)):
     today = datetime.utcnow()
-    static_date = datetime(2024, 12, 17)
-    rates = db.query(CurrencyConversionRate).filter(CurrencyConversionRate.created_at == static_date).all()
+    # static_date = datetime(2024, 12, 17)
+    rates = db.query(CurrencyConversionRate).filter(CurrencyConversionRate.created_at == today).all()
     return rates
 
 # Route to trigger the update asynchronously using Celery
