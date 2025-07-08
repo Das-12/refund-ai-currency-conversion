@@ -39,7 +39,7 @@ class Settings(BaseSettings):
     DB_NAME: str = os.getenv("DB_NAME", "currency_conversion_service")
     DB_PORT: int = os.getenv("DB_PORT", 3306)
 
-    KAFKA_BROKER_URL: str = os.getenv("KAFKA_BROKER_URL", '159.89.199.213:9092')
+    KAFKA_BROKER_URL: str = os.getenv("KAFKA_BROKER_URL", 'kafka:9092')
     KAFKA_TOPIC: str = os.getenv("KAFKA_TOPIC", 'gst_logging')
     KAFKA_USERNAME: str = os.getenv("KAFKA_USERNAME", 'arshad')
     KAFKA_PASSWORD: str = os.getenv("KAFKA_PASSWORD", 'KldkhhmS392')
