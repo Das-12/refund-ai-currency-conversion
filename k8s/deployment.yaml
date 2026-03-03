@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: currency-service
+  namespace: refundai
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: currency-service
+  template:
+    metadata:
+      labels:
+        app: currency-service
+    spec:
+      containers:
+        - name: currency-service
+          image: ghcr.io/arshadm25/currency-service:v1
+          ports:
+            - containerPort: 8000
+          imagePullPolicy: Always
+          envFrom:                
+            - configMapRef:
+                name: currency-service-env  
+      imagePullSecrets:
+        - name: ghcr-secret          
