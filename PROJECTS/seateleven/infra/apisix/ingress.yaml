@@ -1,0 +1,41 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: apisix-ingress
+  namespace: ingress-apisix
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - tsgate.ecogo.co.in
+      secretName: apisix-gateway-tls
+    - hosts:
+        - adtsgate.ecogo.co.in
+      secretName: apisix-admin-tls
+  rules:
+    - host: tsgate.ecogo.co.in
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: apisix-gateway
+                port:
+                  number: 80
+    # Dashboard UI - Access via /ui/ path
+    - host: adtsgate.ecogo.co.in
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: apisix-admin
+                port:
+                  number: 9180
+

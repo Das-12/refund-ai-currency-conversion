@@ -1,0 +1,36 @@
+apiVersion: apisix.apache.org/v2
+kind: ApisixRoute
+metadata:
+  name: seateleven-config-route
+  namespace: seateleven
+spec:
+  http:
+    - name: config-api
+      match:
+        hosts:
+          - config.seateleven.com
+        paths:
+          - /*
+      backends:
+        - serviceName: configuration
+          servicePort: 8002
+      plugins:
+        - name: proxy-rewrite
+          enable: true
+          config:
+            scheme: http
+
+    - name: auth-api
+      match:
+        hosts:
+          - auth.seateleven.com
+        paths:
+          - /*
+      backends:
+        - serviceName: authentication
+          servicePort: 8007
+      plugins:
+        - name: proxy-rewrite
+          enable: true
+          config:
+            scheme: http

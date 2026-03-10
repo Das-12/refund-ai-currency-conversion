@@ -1,0 +1,60 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: mongodb-backup
+  namespace: infra
+spec:
+  # 3:00 AM IST = 21:30 UTC
+  schedule: "30 21 * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: mongodb-backup
+              image: mongo:6
+              imagePullPolicy: IfNotPresent
+              env:
+                - name: MONGO_USERNAME
+                  valueFrom:
+                    secretKeyRef:
+                      name: mongodb-secret
+                      key: MONGO_INITDB_ROOT_USERNAME
+                - name: MONGO_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: mongodb-secret
+                      key: MONGO_INITDB_ROOT_PASSWORD
+                - name: TZ
+                  value: Asia/Kolkata
+              command:
+                - /bin/sh
+                - -c
+                - |
+                  set -e
+                  BACKUP_DIR="/backups/mongodb/$(date +%Y-%m-%d)"
+                  mkdir -p "$BACKUP_DIR"
+                  echo "[$(date)] Starting MongoDB backup..."
+                  mongodump \
+                    --host=mongodb-0.mongodb.infra.svc.cluster.local:27017 \
+                    --username="$MONGO_USERNAME" \
+                    --password="$MONGO_PASSWORD" \
+                    --authenticationDatabase=admin \
+                    --out="$BACKUP_DIR"
+                  echo "[$(date)] Compressing backup..."
+                  tar -czf "/backups/mongodb/mongodb-$(date +%Y-%m-%d).tar.gz" -C /backups/mongodb "$(date +%Y-%m-%d)"
+                  rm -rf "$BACKUP_DIR"
+                  echo "[$(date)] Removing backups older than 30 days..."
+                  find /backups/mongodb -name "*.tar.gz" -mtime +30 -delete
+                  echo "[$(date)] MongoDB backup completed successfully."
+              volumeMounts:
+                - name: backup-storage
+                  mountPath: /backups
+          volumes:
+            - name: backup-storage
+              persistentVolumeClaim:
+                claimName: db-backups-pvc

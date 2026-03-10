@@ -1,0 +1,99 @@
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: crm-app
+#   namespace: crm
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: crm-app
+#   template:
+#     metadata:
+#       labels:
+#         app: crm-app
+#     spec:
+#       containers:
+#       - name: crm-app
+#         # The user will replace [YOUR_GITHUB_USER] with their username
+#         image: ghcr.io/arshadm25/crm-app:latest
+#         ports:
+#         - containerPort: 80
+#         envFrom:
+#         - configMapRef:
+#             name: crm-config
+#         - secretRef:
+#             name: crm-secret
+#         resources:
+#           requests:
+#             cpu: 100m
+#             memory: 128Mi
+#           limits:
+#             cpu: 500m
+#             memory: 512Mi
+#         livenessProbe:
+#           httpGet:
+#             path: /
+#             port: 80
+#           initialDelaySeconds: 30
+#           periodSeconds: 10
+#         readinessProbe:
+#           httpGet:
+#             path: /
+#             port: 80
+#           initialDelaySeconds: 10
+#           periodSeconds: 5
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crm-app
+  namespace: crm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: crm-app
+  template:
+    metadata:
+      labels:
+        app: crm-app
+    spec:
+      imagePullSecrets:
+        - name: ghcr-secret
+      containers:
+      - name: crm-app
+        image: ghcr.io/arshadm25/crm-app:v1
+        ports:
+        - containerPort: 80
+        envFrom:
+        - configMapRef:
+            name: crm-config
+        - secretRef:
+            name: crm-secret
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 500m
+            memory: 512Mi
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 60
+          periodSeconds: 15
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        volumeMounts:
+        - name: apache-config
+          mountPath: /etc/apache2/sites-available/000-default.conf
+          subPath: 000-default.conf
+      volumes:
+      - name: apache-config
+        configMap:
+          name: crm-apache-config

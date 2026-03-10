@@ -12,3 +12,4 @@ data:
       bindIp: 0.0.0.0
     security:
       authorization: enabled
+      

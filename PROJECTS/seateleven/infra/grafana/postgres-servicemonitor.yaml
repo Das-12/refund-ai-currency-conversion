@@ -1,0 +1,18 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: postgres-exporter-monitor
+  namespace: monitoring # Usually ServiceMonitors are in the same namespace as Prometheus or have cross-namespace discovery
+  labels:
+    release: monitoring-kube-prometheus # This label is critical for Prometheus Operator to pick it up
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: postgres-exporter # Common label for the helm chart
+  namespaceSelector:
+    matchNames:
+      - infra
+  endpoints:
+  - port: http # This should match the port name in the service
+    interval: 30s
+    path: /metrics

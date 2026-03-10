@@ -1,0 +1,7 @@
+1)Ecogo Account Login Details
+
+username :sales@ecogo.ai
+Password :Ecogo.ai@123
+ 
+
+2)API Documentation link : https://docs.xs2event.com/

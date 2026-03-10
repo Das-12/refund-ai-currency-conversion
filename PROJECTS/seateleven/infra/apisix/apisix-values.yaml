@@ -1,0 +1,39 @@
+# APISIX Helm Values
+# Ref: https://github.com/apache/apisix-helm-chart
+
+apisix:
+  enabled: true
+  # Enable the embedded Dashboard UI (served at /ui/ on the admin port)
+  admin:
+    enabled: true
+    # Access key for Admin API, keep it secure
+    credentials:
+      admin: edd1c9f034335f136f87ad84b625c8f1
+    # CRITICAL: This enables the embedded Dashboard UI at http://<admin-svc>:9180/ui/
+    allow:
+      ipList:
+        - 0.0.0.0/0
+  deployment:
+    admin:
+      enable_admin_ui: true
+      allow_admin:
+        - 0.0.0.0/0
+      admin_key:
+        - name: admin
+          key: edd1c9f034335f136f87ad84b625c8f1
+          role: admin
+
+# Enable the Ingress Controller
+ingress-controller:
+  enabled: true
+  config:
+    apisix:
+      adminKey: edd1c9f034335f136f87ad84b625c8f1
+
+# Critical: Configure etcd storage
+etcd:
+  replicaCount: 1 # Single node for simplicity on a single-node cluster
+  persistence:
+    enabled: true
+    storageClass: "local-path"
+    size: 8Gi

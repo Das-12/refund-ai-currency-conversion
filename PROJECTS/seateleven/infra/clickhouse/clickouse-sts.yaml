@@ -1,0 +1,162 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  creationTimestamp: "2025-12-03T09:57:24Z"
+  generation: 2
+  labels:
+    clickhouse.altinity.com/app: chop
+    clickhouse.altinity.com/chi: clickhouse
+    clickhouse.altinity.com/cluster: cluster1
+    clickhouse.altinity.com/namespace: default
+    clickhouse.altinity.com/object-version: dc5ff30857256b6f00ea21642e1ef9e819817e52
+    clickhouse.altinity.com/replica: "0"
+    clickhouse.altinity.com/shard: "0"
+  name: chi-clickhouse-cluster1-0-0
+  namespace: default
+  ownerReferences:
+  - apiVersion: clickhouse.altinity.com/v1
+    blockOwnerDeletion: true
+    controller: true
+    kind: ClickHouseInstallation
+    name: clickhouse
+    uid: 69251356-08a6-4820-943b-cd2253df019c
+  resourceVersion: "29203759"
+  uid: 11d3b9bc-311e-4e23-8326-3848352e32bc
+spec:
+  persistentVolumeClaimRetentionPolicy:
+    whenDeleted: Retain
+    whenScaled: Retain
+  podManagementPolicy: OrderedReady
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      clickhouse.altinity.com/app: chop
+      clickhouse.altinity.com/chi: clickhouse
+      clickhouse.altinity.com/cluster: cluster1
+      clickhouse.altinity.com/namespace: default
+      clickhouse.altinity.com/replica: "0"
+      clickhouse.altinity.com/shard: "0"
+  serviceName: chi-clickhouse-cluster1-0-0
+  template:
+    metadata:
+      annotations:
+        kubectl.kubernetes.io/restartedAt: "2025-12-17T17:16:40+05:30"
+      creationTimestamp: null
+      labels:
+        clickhouse.altinity.com/app: chop
+        clickhouse.altinity.com/chi: clickhouse
+        clickhouse.altinity.com/cluster: cluster1
+        clickhouse.altinity.com/namespace: default
+        clickhouse.altinity.com/ready: "yes"
+        clickhouse.altinity.com/replica: "0"
+        clickhouse.altinity.com/shard: "0"
+      name: clickhouse-pod-template
+    spec:
+      containers:
+      - env:
+        - name: CLICKHOUSE_SKIP_USER_SETUP
+          value: "1"
+        image: clickhouse/clickhouse-server:latest
+        imagePullPolicy: Always
+        livenessProbe:
+          failureThreshold: 10
+          httpGet:
+            path: /ping
+            port: http
+            scheme: HTTP
+          initialDelaySeconds: 60
+          periodSeconds: 3
+          successThreshold: 1
+          timeoutSeconds: 1
+        name: clickhouse
+        ports:
+        - containerPort: 9000
+          name: tcp
+          protocol: TCP
+        - containerPort: 8123
+          name: http
+          protocol: TCP
+        - containerPort: 9009
+          name: interserver
+          protocol: TCP
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /ping
+            port: http
+            scheme: HTTP
+          initialDelaySeconds: 10
+          periodSeconds: 3
+          successThreshold: 1
+          timeoutSeconds: 1
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /var/lib/clickhouse
+          name: data-volume
+        - mountPath: /etc/clickhouse-server/config.d/
+          name: chi-clickhouse-common-configd
+        - mountPath: /etc/clickhouse-server/users.d/
+          name: chi-clickhouse-common-usersd
+        - mountPath: /etc/clickhouse-server/conf.d/
+          name: chi-clickhouse-deploy-confd-cluster1-0-0
+      dnsPolicy: ClusterFirst
+      hostAliases:
+      - hostnames:
+        - chi-clickhouse-cluster1-0-0
+        ip: 127.0.0.1
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - configMap:
+          defaultMode: 420
+          name: chi-clickhouse-common-configd
+        name: chi-clickhouse-common-configd
+      - configMap:
+          defaultMode: 420
+          name: chi-clickhouse-common-usersd
+        name: chi-clickhouse-common-usersd
+      - configMap:
+          defaultMode: 420
+          name: chi-clickhouse-deploy-confd-cluster1-0-0
+        name: chi-clickhouse-deploy-confd-cluster1-0-0
+  updateStrategy:
+    type: RollingUpdate
+  volumeClaimTemplates:
+  - apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      creationTimestamp: null
+      labels:
+        clickhouse.altinity.com/app: chop
+        clickhouse.altinity.com/chi: clickhouse
+        clickhouse.altinity.com/cluster: cluster1
+        clickhouse.altinity.com/namespace: default
+        clickhouse.altinity.com/replica: "0"
+        clickhouse.altinity.com/shard: "0"
+      name: data-volume
+    spec:
+      storgeClassName: local-path
+      accessmodes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 5Gi
+      volumeMode: Filesystem
+    status:
+      phase: Pending
+status:
+  availableReplicas: 1
+  collisionCount: 0
+  currentReplicas: 1
+  currentRevision: chi-clickhouse-cluster1-0-0-5b9649cb4f
+  observedGeneration: 2
+  readyReplicas: 1
+  replicas: 1
+  updateRevision: chi-clickhouse-cluster1-0-0-5b9649cb4f
+  updatedReplicas: 1
+  

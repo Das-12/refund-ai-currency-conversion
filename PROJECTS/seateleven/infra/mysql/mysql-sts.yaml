@@ -18,28 +18,22 @@ spec:
       - name: mysql
         image: mysql:8.0
         imagePullPolicy: IfNotPresent
-        env:
-        - name: MYSQL_ROOT_PASSWORD
-          value: root123
-        - name: MYSQL_DATABASE
-          value: testdb
-        - name: MYSQL_USER
-          value: testuser
-        - name: MYSQL_PASSWORD
-          value: testpass
+        envFrom:
+        - secretRef:
+            name: mysql-secret
         ports:
         - containerPort: 3306
           name: mysql
           protocol: TCP
         volumeMounts:
         - mountPath: /var/lib/mysql
-          name: mysql-data
+          name: mysql-data-volume
   volumeClaimTemplates:
   - metadata:
-      name: mysql-data
+      name: mysql-data-volume
     spec:
       accessModes: [ "ReadWriteOnce" ]
       storageClassName: local-path
       resources:
         requests:
-          storage: 5Gi
+          storage: 10Gi

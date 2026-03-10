@@ -1,0 +1,9 @@
+installation:
+  enabled: true
+  kubernetesProvider: ""
+  calicoNetwork:
+    ipPools:
+      - cidr: 10.244.0.0/16
+        encapsulation: VXLAN
+        natOutgoing: Enabled
+        nodeSelector: all()

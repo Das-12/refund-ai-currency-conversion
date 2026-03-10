@@ -17,8 +17,7 @@ spec:
       containers:
         - name: mongodb
           image: mongo:6.0
-          command:
-            - mongod
+          args:
             - "--config=/etc/mongo/mongod.conf"
           ports:
             - containerPort: 27017

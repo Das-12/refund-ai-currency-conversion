@@ -1,0 +1,106 @@
+apiVersion: apisix.apache.org/v2
+kind: ApisixRoute
+metadata:
+  name: kindali-routes
+  namespace: kindali-test
+spec:
+  http:
+    - name: aggregator
+      match:
+        hosts:
+          - kindali.ecogo.co.in
+        paths:
+          - /api/aggregator*
+      backends:
+        - serviceName: aggregator-app
+          servicePort: 8081
+      plugins:
+        - name: proxy-rewrite
+          enable: true
+          config:
+            regex_uri: ["^/api/aggregator(/|$)(.*)", "/$2"]
+
+    - name: company
+      match:
+        hosts:
+          - kindali.ecogo.co.in
+        paths:
+          - /api/company*
+      backends:
+        - serviceName: company-service
+          servicePort: 8001
+      plugins:
+        - name: proxy-rewrite
+          enable: true
+          config:
+            regex_uri: ["^/api/company(/|$)(.*)", "/$2"]
+
+    - name: provider
+      match:
+        hosts:
+          - kindali.ecogo.co.in
+        paths:
+          - /api/provider*
+      backends:
+        - serviceName: provider-app
+          servicePort: 8082
+      plugins:
+        - name: proxy-rewrite
+          enable: true
+          config:
+            regex_uri: ["^/api/provider(/|$)(.*)", "/$2"]
+
+    - name: inventory
+      match:
+        hosts:
+          - kindali.ecogo.co.in
+        paths:
+          - /api/inventory*
+      backends:
+        - serviceName: inventory-app
+          servicePort: 8000
+      plugins:
+        - name: proxy-rewrite
+          enable: true
+          config:
+            regex_uri: ["^/api/inventory(/|$)(.*)", "/$2"]
+
+    - name: markup
+      match:
+        hosts:
+          - kindali.ecogo.co.in
+        paths:
+          - /api/markup*
+      backends:
+        - serviceName: markup-b2c
+          servicePort: 8003
+      plugins:
+        - name: proxy-rewrite
+          enable: true
+          config:
+            regex_uri: ["^/api/markup(/|$)(.*)", "/api/v1/$2"]
+
+    - name: notification
+      match:
+        hosts:
+          - kindali.ecogo.co.in
+        paths:
+          - /api/notification*
+      backends:
+        - serviceName: notification-service
+          servicePort: 8080
+      plugins:
+        - name: proxy-rewrite
+          enable: true
+          config:
+            regex_uri: ["^/api/notification(/|$)(.*)", "/api/v1/$2"]
+
+    - name: dashboard
+      match:
+        hosts:
+          - kindali-dash.ecogo.co.in
+        paths:
+          - /*
+      backends:
+        - serviceName: kindali-dashboard-new
+          servicePort: 3000

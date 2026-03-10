@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: nats
+  namespace: infra
+  labels:
+    app: nats
+spec:
+  selector:
+    matchLabels:
+      app: nats
+  serviceName: nats-headless
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: nats
+    spec:
+      initContainers:
+        - name: fix-permissions
+          image: busybox
+          command: ["sh", "-c", "chown -R 1000:1000 /data/jetstream"]
+          volumeMounts:
+            - name: data
+              mountPath: /data/jetstream
+      containers:
+        - name: nats
+          image: nats:2.9-alpine
+          ports:
+            - containerPort: 4222
+              name: client
+            - containerPort: 6222
+              name: cluster
+            - containerPort: 8222
+              name: monitor
+          env:
+            - name: SERVER_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: NATS_name
+              value: $(SERVER_NAME)
+          command: ["nats-server"]
+          args: ["-n", "$(SERVER_NAME)", "-c", "/etc/nats-config/nats.conf"]
+          volumeMounts:
+            - name: config-volume
+              mountPath: /etc/nats-config
+            - name: pid
+              mountPath: /var/run/nats
+            - name: data
+              mountPath: /data/jetstream
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8222
+            initialDelaySeconds: 10
+            timeoutSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8222
+            initialDelaySeconds: 10
+            timeoutSeconds: 5
+      volumes:
+        - name: config-volume
+          configMap:
+            name: nats-config
+        - name: pid
+          emptyDir: {}
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: "local-path"
+        resources:
+          requests:
+            storage: 10Gi

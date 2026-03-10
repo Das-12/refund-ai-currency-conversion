@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://crm.ecogo.ai/sitemap.xml

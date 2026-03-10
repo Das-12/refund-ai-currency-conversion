@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html
+    environment:
+      - APP_BASE_URL=${APP_BASE_URL}
+      - APP_DB_HOSTNAME=${APP_DB_HOSTNAME}
+      - APP_DB_USERNAME=${APP_DB_USERNAME}
+      - APP_DB_PASSWORD=${APP_DB_PASSWORD}
+      - APP_DB_NAME=${APP_DB_NAME}
+      - APP_ENC_KEY=${APP_ENC_KEY}
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+  db:
+    image: mariadb:10.6
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: ${APP_DB_NAME}
+      MYSQL_USER: ${APP_DB_USERNAME}
+      MYSQL_PASSWORD: ${APP_DB_PASSWORD}
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  db_data:

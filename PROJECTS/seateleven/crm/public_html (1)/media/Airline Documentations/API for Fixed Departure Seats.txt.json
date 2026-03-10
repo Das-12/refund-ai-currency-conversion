@@ -1,0 +1,330 @@
+{
+	"info": {
+		"_postman_id": "cc572f11-eb60-4eb4-af46-27f987f7ea26",
+		"name": "API for Fixed Departure Seats",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11671843"
+	},
+	"item": [
+		{
+			"name": "Departure City List",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"trip_type\": 0,\n    \"end_user_ip\": \"183.83.43.117\",\n    \"token\": \"4-2-3721-KRAZY-389-xnewkncBUI8\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://local.flightapi.co.in/v1/fbapi/dep_city",
+					"protocol": "https",
+					"host": [
+						"local",
+						"flightapi",
+						"co",
+						"in"
+					],
+					"path": [
+						"v1",
+						"fbapi",
+						"dep_city"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Arrival City List",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"trip_type\": 0,\n    \"end_user_ip\": \"183.83.43.117\",\n    \"token\": \"4-2-3721-KRAZY-389-xnewkncBUI8\",\n    \"city_code\": \"JAI\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://local.flightapi.co.in/v1/fbapi/arr_city",
+					"protocol": "https",
+					"host": [
+						"local",
+						"flightapi",
+						"co",
+						"in"
+					],
+					"path": [
+						"v1",
+						"fbapi",
+						"arr_city"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sector List",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"trip_type\": 0,\n    \"end_user_ip\": \"183.83.43.117\",\n    \"token\": \"4-2-3721-KRAZY-389-xnewkncBUI8\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://local.flightapi.co.in/v1/fbapi/sector",
+					"protocol": "https",
+					"host": [
+						"local",
+						"flightapi",
+						"co",
+						"in"
+					],
+					"path": [
+						"v1",
+						"fbapi",
+						"sector"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Onward Date",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"trip_type\": 0,\n    \"end_user_ip\": \"183.83.43.117\",\n    \"token\": \"4-2-3721-KRAZY-389-xnewkncBUI8\",\n    \"dep_city_code\": \"JAI\",\n    \"arr_city_code\": \"DEL\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://local.flightapi.co.in/v1/fbapi/onward_date",
+					"protocol": "https",
+					"host": [
+						"local",
+						"flightapi",
+						"co",
+						"in"
+					],
+					"path": [
+						"v1",
+						"fbapi",
+						"onward_date"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Return Date",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"trip_type\": 1,\n    \"end_user_ip\": \"183.83.43.117\",\n    \"token\": \"4-2-3721-KRAZY-389-xnewkncBUI8\",\n    \"dep_city_code\": \"JAI\",\n    \"arr_city_code\": \"DEL\",\n    \"onward_date\": \"2023-08-23\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://local.flightapi.co.in/v1/fbapi/return_date",
+					"protocol": "https",
+					"host": [
+						"local",
+						"flightapi",
+						"co",
+						"in"
+					],
+					"path": [
+						"v1",
+						"fbapi",
+						"return_date"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"trip_type\": 0,\n    \"end_user_ip\": \"183.83.43.117\",\n    \"token\": \"4-2-3721-KRAZY-389-xnewkncBUI8\",\n    \"dep_city_code\": \"JAI\",\n    \"arr_city_code\": \"DEL\",\n    \"onward_date\": \"2024-12-24\",\n    \"return_date\": \"\",\n    \"adult\": 1,\n    \"children\": 1,\n    \"infant\": 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://local.flightapi.co.in/v1/fbapi/search",
+					"protocol": "https",
+					"host": [
+						"local",
+						"flightapi",
+						"co",
+						"in"
+					],
+					"path": [
+						"v1",
+						"fbapi",
+						"search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Fare Quote",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 154,\n    \"end_user_ip\": \"183.83.43.117\",\n    \"token\": \"4-2-3721-KRAZY-389-xnewkncBUI8\",\n    \"adult_children\": 2,\n    \"infant\": 1,\n    \"onward_date\": \"2022-12-24\",\n    \"static\": \"0--21--354\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://local.flightapi.co.in/v1/fbapi/fare_quote",
+					"protocol": "https",
+					"host": [
+						"local",
+						"flightapi",
+						"co",
+						"in"
+					],
+					"path": [
+						"v1",
+						"fbapi",
+						"fare_quote"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Book",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwicm9sZV9pZCI6MywiYWdlbmN5X3R5cGVfaWQiOm51bGwsInVzZXJfcmVmZXJlbmNlX2lkIjoiU1VOSzdjQzgxNjM3MzA0MzkwNDU5IiwicGFja2FnZV9pZCI6bnVsbCwibmFtZSI6IlN1bmlsIGt1bWFyIiwiZW1haWwiOiJzdW5pbC5mYXJlYm91dGlxdWVAZ21haWwuY29tIiwibm90aWZpY2F0aW9uX0ZDTUtFWSI6IkFBQUFRZWhzN3ZnOkFQQTkxYkVpTUJtclRwUkhfRWdMb2tVS1RiV3FIS1JHSy1FLWJ4VkQ3RUN4elJycS0wZ3QybVJ3LXZZX2J3TDk2bVBxY1lZa2hJSHVUcWFMN0hxRTlWYmFlSDFwSXgtaDB5clVCbHhzQ0ZrclFwUjVyUEIxbGk3QS01cGFtR1QxQlNocjI5Q3d0eUxRIiwibnRpZmljYXRpb25fQ0xJRU5UX0lEIjoiQUFBQVFlaHM3dmc6QVBBOTFiRWlNQm1yVHBSSF9FZ0xva1VLVGJXcUhLUkdLLUUtYnhWRDdFQ3h6UnJxLTBndDJtUnctdllfYndMOTZtUHFjWVlraElIdVRxYUw3SHFFOVZiYWVIMXBJeC1oMHlyVUJseHNDRmtyIiwibW9iaWxlIjoiOTYzMjU4NzQxOCIsImltYWdlIjoiMTYzODk0MjI0NDg3NC5wbmciLCJjcmVkaXRfbGltaXQiOm51bGwsImFkZHJlc3NfMiI6ImphaXB1ciIsInBob25lIjpudWxsLCJhZGRyZXNzIjoiamFpcHVyIiwiY2l0eSI6ImphaXB1ciIsInN0YXRlX2lkIjoyMSwiY291bnRyeV9pZCI6OTMsInppcGNvZGUiOiIzMDIwMTIiLCJjb21wYW55X25hbWUiOiJLYXJ3YW4gaG9saWRheXMiLCJjb250YWN0X3BlcnNvbl9uYW1lIjpudWxsLCJjb250YWN0X3BlcnNvbl9ubyI6bnVsbCwiaWF0YV9jb2RlIjpudWxsLCJ3ZWJzaXRlIjoia2Fyd2FuLmNvbSIsImdzdF9ubyI6IiIsInBhbl9ubyI6IkFTSEJHODUwNUsiLCJnc3RfZG9jIjpudWxsLCJwYW5fZG9jIjpudWxsLCJ2ZXJpZmllZCI6ZmFsc2UsInN0YXR1cyI6dHJ1ZSwiZGV2aWNlX3Rva2VuIjoiNDQ2MzR3OHE3ZDdlZHdxNmVxdzQ2IiwiZGV2aWNlX3R5cGUiOiJ3ZWIiLCJjcmVhdGVkQXQiOiIyMDIxLTExLTE5VDA2OjQ2OjMwLjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDIyLTA1LTMxVDAxOjA3OjIwLjAwMFoiLCJpYXQiOjE2NTkzNTE0ODd9.b2sWomlyDvdcv4l5xtM99unaM2Qs_JhkpNDDPFczllc",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "1FMQKB1639407126571",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 154,\r\n    \"onward_date\": \"2022-12-24\",\r\n    \"return_date\": \"\",\r\n    \"adult\": 1,\r\n    \"children\": 1,\r\n    \"infant\": 1,\r\n    \"dep_city_code\": \"JAI\",\r\n    \"arr_city_code\": \"DEL\",\r\n    \"total_book_seats\": 3,\r\n    \"contact_name\": \"Sunil kumar\",\r\n    \"contact_email\": \"sunil.fareboutique@gmail.com\",\r\n    \"contact_number\": \"9632587418\",\r\n    \"flight_traveller_details\": [\r\n        {\r\n            \"gender\": \"Miss\",\r\n            \"first_name\": \"test\",\r\n            \"middle_name\": \"\",\r\n            \"last_name\": \"infant\",\r\n            \"age\": 1,\r\n            \"dob\": \"2021-09-01\",\r\n            \"passport_no\": \"\",\r\n            \"passport_expire_date\": \"\"\r\n        },\r\n        {\r\n            \"gender\": \"Mr\",\r\n            \"first_name\": \"test\",\r\n            \"middle_name\": \"\",\r\n            \"last_name\": \"child\",\r\n            \"age\": 6,\r\n            \"dob\": \"2017-02-02\",\r\n            \"passport_no\": \"\",\r\n            \"passport_expire_date\": \"\"\r\n        },\r\n        {\r\n            \"gender\": \"Mr\",\r\n            \"first_name\": \"test\",\r\n            \"middle_name\": \"\",\r\n            \"last_name\": \"adult\",\r\n            \"age\": 35,\r\n            \"dob\": \"1986-07-03\",\r\n            \"passport_no\": \"\",\r\n            \"passport_expire_date\": \"\"\r\n        }\r\n    ],\r\n    \"booking_token_id\": \"a4a0695d-76ea-4a56-8ae2-cc03c5326edc\",\r\n    \"total_amount\": 10860,\r\n    \"partner_user_id\": \"0\",\r\n    \"static\": \"0--21--354\",\r\n    \"end_user_ip\": \"183.83.43.117\",\r\n    \"token\": \"4-2-3721-KRAZY-389-xnewkncBUI8\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://local.flightapi.co.in/v1/fbapi/book",
+					"protocol": "https",
+					"host": [
+						"local",
+						"flightapi",
+						"co",
+						"in"
+					],
+					"path": [
+						"v1",
+						"fbapi",
+						"book"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Booking Details",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwicm9sZV9pZCI6MywiYWdlbmN5X3R5cGVfaWQiOm51bGwsInVzZXJfcmVmZXJlbmNlX2lkIjoiU1VOSzdjQzgxNjM3MzA0MzkwNDU5IiwicGFja2FnZV9pZCI6bnVsbCwibmFtZSI6IlN1bmlsIGt1bWFyIiwiZW1haWwiOiJzdW5pbC5mYXJlYm91dGlxdWVAZ21haWwuY29tIiwibm90aWZpY2F0aW9uX0ZDTUtFWSI6IkFBQUFRZWhzN3ZnOkFQQTkxYkVpTUJtclRwUkhfRWdMb2tVS1RiV3FIS1JHSy1FLWJ4VkQ3RUN4elJycS0wZ3QybVJ3LXZZX2J3TDk2bVBxY1lZa2hJSHVUcWFMN0hxRTlWYmFlSDFwSXgtaDB5clVCbHhzQ0ZrclFwUjVyUEIxbGk3QS01cGFtR1QxQlNocjI5Q3d0eUxRIiwibnRpZmljYXRpb25fQ0xJRU5UX0lEIjoiQUFBQVFlaHM3dmc6QVBBOTFiRWlNQm1yVHBSSF9FZ0xva1VLVGJXcUhLUkdLLUUtYnhWRDdFQ3h6UnJxLTBndDJtUnctdllfYndMOTZtUHFjWVlraElIdVRxYUw3SHFFOVZiYWVIMXBJeC1oMHlyVUJseHNDRmtyIiwibW9iaWxlIjoiOTYzMjU4NzQxOCIsImltYWdlIjoiMTYzODk0MjI0NDg3NC5wbmciLCJjcmVkaXRfbGltaXQiOm51bGwsImFkZHJlc3NfMiI6ImphaXB1ciIsInBob25lIjpudWxsLCJhZGRyZXNzIjoiamFpcHVyIiwiY2l0eSI6ImphaXB1ciIsInN0YXRlX2lkIjoyMSwiY291bnRyeV9pZCI6OTMsInppcGNvZGUiOiIzMDIwMTIiLCJjb21wYW55X25hbWUiOiJLYXJ3YW4gaG9saWRheXMiLCJjb250YWN0X3BlcnNvbl9uYW1lIjpudWxsLCJjb250YWN0X3BlcnNvbl9ubyI6bnVsbCwiaWF0YV9jb2RlIjpudWxsLCJ3ZWJzaXRlIjoia2Fyd2FuLmNvbSIsImdzdF9ubyI6IiIsInBhbl9ubyI6IkFTSEJHODUwNUsiLCJnc3RfZG9jIjpudWxsLCJwYW5fZG9jIjpudWxsLCJ2ZXJpZmllZCI6ZmFsc2UsInN0YXR1cyI6dHJ1ZSwiZGV2aWNlX3Rva2VuIjoiNDQ2MzR3OHE3ZDdlZHdxNmVxdzQ2IiwiZGV2aWNlX3R5cGUiOiJ3ZWIiLCJjcmVhdGVkQXQiOiIyMDIxLTExLTE5VDA2OjQ2OjMwLjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDIyLTA1LTMxVDAxOjA3OjIwLjAwMFoiLCJpYXQiOjE2NTkzNTE0ODd9.b2sWomlyDvdcv4l5xtM99unaM2Qs_JhkpNDDPFczllc",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "1FMQKB1639407126571",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"reference_id\": \"154yu4gh1671042718388\",\r\n    \"transaction_id\": \"transaction_id\",\r\n    \"end_user_ip\": \"183.83.43.117\",\r\n    \"token\": \"4-2-3721-KRAZY-389-xnewkncBUI8\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://local.flightapi.co.in/v1/fbapi/booking_details",
+					"protocol": "https",
+					"host": [
+						"local",
+						"flightapi",
+						"co",
+						"in"
+					],
+					"path": [
+						"v1",
+						"fbapi",
+						"booking_details"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -1,13 +1,11 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  labels:
-    app: postgres
   name: postgres
   namespace: infra
 spec:
-  replicas: 1
   serviceName: postgres
+  replicas: 1
   selector:
     matchLabels:
       app: postgres
@@ -17,7 +15,10 @@ spec:
         app: postgres
     spec:
       containers:
-      - env:
+      - name: postgres
+        image: postgres:14-alpine
+        imagePullPolicy: IfNotPresent
+        env:
         - name: POSTGRES_DB
           value: postgres
         - name: POSTGRES_USER
@@ -25,70 +26,22 @@ spec:
         - name: POSTGRES_PASSWORD
           valueFrom:
             secretKeyRef:
-              key: postgres-password
               name: postgres-secret
+              key: postgres-password
         - name: PGDATA
           value: /var/lib/postgresql/data/pgdata
-        image: postgres:14-alpine
-        imagePullPolicy: IfNotPresent
-        livenessProbe:
-          exec:
-            command:
-            - /bin/sh
-            - -c
-            - pg_isready -U postgres -h localhost
-          failureThreshold: 3
-          initialDelaySeconds: 30
-          periodSeconds: 10
-          successThreshold: 1
-          timeoutSeconds: 1
-        name: postgres
         ports:
         - containerPort: 5432
           name: postgres
-          protocol: TCP
-        readinessProbe:
-          exec:
-            command:
-            - /bin/sh
-            - -c
-            - pg_isready -U postgres -h localhost
-          failureThreshold: 3
-          initialDelaySeconds: 5
-          periodSeconds: 5
-          successThreshold: 1
-          timeoutSeconds: 1
-        resources:
-          limits:
-            cpu: 300m
-            memory: 512Mi
-          requests:
-            cpu: 100m
-            memory: 128Mi
-        terminationMessagePath: /dev/termination-log
-        terminationMessagePolicy: File
         volumeMounts:
         - mountPath: /var/lib/postgresql/data
-          name: postgres-data
-      dnsPolicy: ClusterFirst
-      restartPolicy: Always
-      schedulerName: default-scheduler
-      securityContext: {}
-      terminationGracePeriodSeconds: 30
-  updateStrategy:
-    rollingUpdate:
-      partition: 0
-    type: RollingUpdate
+          name: postgres-data-volume
   volumeClaimTemplates:
-  - apiVersion: v1
-    kind: PersistentVolumeClaim
-    metadata:
-      name: postgres-data
+  - metadata:
+      name: postgres-data-volume
     spec:
-      accessModes:
-      - ReadWriteOnce
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: local-path
       resources:
         requests:
           storage: 5Gi
-      storageClassName: local-path
-      volumeMode: Filesystem

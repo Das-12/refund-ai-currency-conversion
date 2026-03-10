@@ -1,0 +1,59 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: mysql-backup
+  namespace: infra
+spec:
+  # 2:30 AM IST = 21:00 UTC
+  schedule: "00 21 * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: mysql-backup
+              image: mysql:8
+              imagePullPolicy: IfNotPresent
+              env:
+                - name: MYSQL_PWD
+                  valueFrom:
+                    secretKeyRef:
+                      name: mysql-secret
+                      key: MYSQL_ROOT_PASSWORD
+                - name: TZ
+                  value: Asia/Kolkata
+              command:
+                - /bin/sh
+                - -c
+                - |
+                  set -e
+                  BACKUP_DIR="/backups/mysql"
+                  mkdir -p "$BACKUP_DIR"
+                  BACKUP_FILE="$BACKUP_DIR/mysql-all-databases-$(date +%Y-%m-%d).sql.gz"
+                  echo "[$(date)] Starting MySQL backup..."
+                  mysqldump \
+                    --host=mysql-0.mysql.infra.svc.cluster.local \
+                    --port=3306 \
+                    --user=root \
+                    --password="$MYSQL_PWD" \
+                    --all-databases \
+                    --single-transaction \
+                    --routines \
+                    --triggers \
+                    --events \
+                    --no-tablespaces \
+                    | gzip > "$BACKUP_FILE"
+                  echo "[$(date)] Removing backups older than 30 days..."
+                  find "$BACKUP_DIR" -name "*.sql.gz" -mtime +30 -delete
+                  echo "[$(date)] MySQL backup completed: $BACKUP_FILE"
+              volumeMounts:
+                - name: backup-storage
+                  mountPath: /backups
+          volumes:
+            - name: backup-storage
+              persistentVolumeClaim:
+                claimName: db-backups-pvc

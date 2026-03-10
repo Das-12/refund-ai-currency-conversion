@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: redis-config
+  namespace: infra
+data:
+  redis.conf: |
+    # Redis Configuration for Password Authentication
+    
+    # Bind to all interfaces (required for Kubernetes)
+    bind 0.0.0.0
+    
+    # Protected mode off (we're using password auth instead)
+    protected-mode no
+    
+    # Port
+    port 6379
+    
+    # Enable AOF persistence
+    appendonly yes
+    appendfilename "appendonly.aof"
+    
+    # Save snapshots
+    save 900 1
+    save 300 10
+    save 60 10000
+    
+    # Max memory policy
+    maxmemory-policy allkeys-lru
+    
+    # Log level
+    loglevel notice
+    
+    # Database count
+    databases 16

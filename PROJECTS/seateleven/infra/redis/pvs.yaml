@@ -1,0 +1,39 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    annotations:
+      pv.kubernetes.io/bind-completed: "yes"
+      pv.kubernetes.io/bound-by-controller: "yes"
+      volume.beta.kubernetes.io/storage-provisioner: rancher.io/local-path
+      volume.kubernetes.io/selected-node: server
+      volume.kubernetes.io/storage-provisioner: rancher.io/local-path
+    creationTimestamp: "2025-08-28T12:58:22Z"
+    finalizers:
+    - kubernetes.io/pvc-protection
+    labels:
+      app: redis
+      role: master
+    name: redis-data-redis-master-0
+    namespace: redis
+    resourceVersion: "39234"
+    uid: 2c7ac0de-1a0b-4f01-b4c9-bd93ba34b51e
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 5Gi
+    storageClassName: local-path
+    volumeMode: Filesystem
+    volumeName: pvc-2c7ac0de-1a0b-4f01-b4c9-bd93ba34b51e
+  status:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 5Gi
+    phase: Bound
+kind: List
+metadata:
+  resourceVersion: ""
