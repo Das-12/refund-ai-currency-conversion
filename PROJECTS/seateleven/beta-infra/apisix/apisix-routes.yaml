@@ -2,7 +2,7 @@ apiVersion: apisix.apache.org/v2
 kind: ApisixRoute
 metadata:
   name: seateleven-routes
-  namespace: infra-beta
+  namespace: travoze
 spec:
   http:
     - name: aggregator
@@ -12,4 +12,3 @@ spec:
       backends:
         - serviceName: aggregator
           servicePort: 8081
-          namespace: travoze
