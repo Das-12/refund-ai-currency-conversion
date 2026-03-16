@@ -9,10 +9,15 @@ apisix:
       ipList:
         - 0.0.0.0/0
   deployment:
+    hostNetwork: true
     admin:
       enable_admin_ui: true
   gateway:
-    type: LoadBalancer
+    type: NodePort
+    http:
+      containerPort: 80
+    https:
+      containerPort: 443
 
 ingress-controller:
   enabled: true
