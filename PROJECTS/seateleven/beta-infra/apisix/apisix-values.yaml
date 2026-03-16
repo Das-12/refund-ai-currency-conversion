@@ -11,6 +11,8 @@ apisix:
   deployment:
     admin:
       enable_admin_ui: true
+  gateway:
+    type: LoadBalancer
 
 ingress-controller:
   enabled: true
