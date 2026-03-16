@@ -1,0 +1,37 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: apisix-ingress
+  namespace: infra-beta
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  ingressClassName: apisix
+  tls:
+    - hosts:
+        - tsgate.ecogo.co.in
+      secretName: apisix-gateway-tls
+    - hosts:
+        - adtsgate.ecogo.co.in
+      secretName: apisix-admin-tls
+  rules:
+    - host: tsgate.ecogo.co.in
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: apisix-gateway
+                port:
+                  number: 80
+    - host: adtsgate.ecogo.co.in
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: apisix-admin
+                port:
+                  number: 9180

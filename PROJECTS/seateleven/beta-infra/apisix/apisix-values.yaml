@@ -1,0 +1,26 @@
+# APISIX Remote Values (Optimized for infra-beta)
+apisix:
+  enabled: true
+  admin:
+    enabled: true
+    credentials:
+      admin: edd1c9f034335f136f87ad84b625c8f1
+    allow:
+      ipList:
+        - 0.0.0.0/0
+  deployment:
+    admin:
+      enable_admin_ui: true
+
+ingress-controller:
+  enabled: true
+  config:
+    apisix:
+      adminKey: edd1c9f034335f136f87ad84b625c8f1
+
+etcd:
+  replicaCount: 1
+  persistence:
+    enabled: true
+    storageClass: "local-path"
+    size: 8Gi
