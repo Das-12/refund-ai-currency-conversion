@@ -8,8 +8,9 @@ apisix:
     allow:
       ipList:
         - 0.0.0.0/0
+  hostNetwork: true
   deployment:
-    hostNetwork: true
+    # hostNetwork: true (deprecated path in some versions)
     admin:
       enable_admin_ui: true
   gateway:
@@ -18,6 +19,7 @@ apisix:
       containerPort: 80
     https:
       containerPort: 443
+    hostNetwork: true
 
 ingress-controller:
   enabled: true
