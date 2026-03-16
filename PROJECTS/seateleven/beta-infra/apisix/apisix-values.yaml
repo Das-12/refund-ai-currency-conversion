@@ -10,6 +10,7 @@ apisix:
         - 0.0.0.0/0
   hostNetwork: true
   deployment:
+    dnsPolicy: ClusterFirstWithHostNet
     # hostNetwork: true (deprecated path in some versions)
     admin:
       enable_admin_ui: true
