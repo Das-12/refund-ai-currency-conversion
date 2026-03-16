@@ -13,6 +13,7 @@ spec:
       secretName: apisix-gateway-tls
     - hosts:
         - adtsgate.ecogo.co.in
+        - api-travoze.ecogo.co.in
       secretName: apisix-admin-tls
   rules:
     - host: tsgate.ecogo.co.in
@@ -26,6 +27,16 @@ spec:
                 port:
                   number: 80
     - host: adtsgate.ecogo.co.in
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: apisix-admin
+                port:
+                  number: 9180
+    - host: api-travoze.ecogo.co.in
       http:
         paths:
           - path: /
